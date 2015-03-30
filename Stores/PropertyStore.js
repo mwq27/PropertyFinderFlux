@@ -1,10 +1,9 @@
 'use strict';
 var AppDispatcher = require('../AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
-var assign = require('react/lib/Object.assign');
 var CHANGE_EVENT = 'change';
 var searchResults;
-var PropertyStore = assign(EventEmitter.prototype, {
+var PropertyStore = Object.assign(EventEmitter.prototype, {
     addChangeListener(callback) {
         this.on(CHANGE_EVENT, callback);
     },
@@ -19,13 +18,12 @@ var PropertyStore = assign(EventEmitter.prototype, {
     }
 });
 
-AppDispatcher.register(function(payload) {
+AppDispatcher.register(payload => {
     var action = payload.action;
     var user;
     switch(action.actionType) {
         case "SEARCH":
             searchResults = action.data;
-            PropertyStore.emitChange();
             break;
         case "SEARCH_ERROR":
             console.log('Location not found by anyone');
